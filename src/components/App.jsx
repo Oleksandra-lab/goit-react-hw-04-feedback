@@ -1,33 +1,47 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
 import Section from './Section/Section';
 import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 import Statistics from './Statistics/Statistics';
 import Notification from './Notification/Notification';
 
-export default class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+ const App = () => {
+  // state = {
+  //   good: 0,
+  //   neutral: 0,
+  //   bad: 0,
+  // };
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+  
+  const handleClick = evt => {
+    switch (evt) {
+      case 'good':
+        setGood(prevState =>  prevState + 1)
+        break;
+        case 'neutral':
+        setNeutral(prevState =>  prevState + 1)
+        break;
+        case 'bad':
+        setBad(prevState =>  prevState + 1)
+        break;
+        default:
+          return;
+    }
+    
   };
 
-  handleClick = option => {
-    this.setState(prevState => ({
-      [option]: prevState[option] + 1,
-    }));
-  };
-
-  render() {
-    const { good, neutral, bad } = this.state;
+  
+    // const { good, neutral, bad } = this.state;
     const total = good + neutral + bad;
     const positivePercentage = (good / total) * 100;
     return (
       <div>
         <Section>
           <FeedbackOptions
-            options={Object.keys(this.state)}
-            onClick={this.handleClick}
+            options={Object.keys({good, neutral, bad})}
+            onClick={handleClick}
           />
         </Section>
         <Section>
@@ -42,5 +56,6 @@ export default class App extends Component {
         </Section>
       </div>
     );
-  }
+
 }
+ export default App
